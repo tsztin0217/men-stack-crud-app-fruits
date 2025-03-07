@@ -67,7 +67,7 @@ app.post("/fruits", async (req, res) => {
   await Fruit.create(req.body); // this actually adds to mongo atlas
   // redirect tells the client to navigate to
   // a new URL path/another page
-  res.redirect("/fruits/new"); // this is a URL path
+  res.redirect("/fruits"); // this is a URL path
 });
 
 // GET /fruits index route for fruits - sends a page that lists
@@ -101,11 +101,13 @@ app.get("/fruits/:fruitId/edit", async (req, res) => {
 
 app.put("/fruits/:fruitId", async (req, res) => {
   // Handle the 'isReadyToEat' checkbox data
-  if (req.body.isReadyToEat === "on") {
-    req.body.isReadyToEat = true;
-  } else {
-    req.body.isReadyToEat = false;
-  }
+  // if (req.body.isReadyToEat === "on") {
+  //   req.body.isReadyToEat = true;
+  // } else {
+  //   req.body.isReadyToEat = false;
+  // }
+
+  req.body.isReadyToEat = !!req.body.isReadyToEat;
 
   // Update the fruit in the database
   await Fruit.findByIdAndUpdate(req.params.fruitId, req.body);
