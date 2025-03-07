@@ -12,13 +12,22 @@
 
 <body>
     <h1>All Fruits</h1>
-    <ul>
-        <% fruits.forEach(fruit=> { %>
+    <nav>
+        <ul>
             <li>
-                <a href="/fruits/<%= fruit._id %>"><%= fruit.name %></a>
+                <a href="/fruits/new">Add New Fruit</a>
             </li>
-            <% }); %>
-    </ul>
+        </ul>
+        <ul>
+            <% fruits.forEach(fruit=> { %>
+                <li>
+                    <a href="/fruits/<%= fruit._id %>">
+                        <%= fruit.name %>
+                    </a>
+                </li>
+                <% }); %>
+        </ul>
+    </nav>
 </body>
 
 
