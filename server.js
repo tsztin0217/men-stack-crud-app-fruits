@@ -13,11 +13,6 @@ const app = express();
 
 dotenv.config(); // Loads the environment variables from .env file
 
-// Mount it along with our other middleware, ABOVE the routes
-app.use(express.urlencoded({ extended: false }));
-app.use(methodOverride("_method")); // new
-app.use(morgan("dev")); //new
-
 // initialize connection to MongoDB
 mongoose.connect(process.env.MONGODB_URI);
 
@@ -27,10 +22,15 @@ mongoose.connection.on("connected", () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
 
-// mount middleware functions here
-// body parser middleware: this function reads the request body 
+// body parser middleware: this function reads the request body
 // and decodes it into req.body so we can access form data!
 app.use(express.urlencoded({ extended: false }));
+
+// method override reads the "_method" query param for
+// DELETE or PUT requests
+app.use(methodOverride("_method"));
+app.use(morgan("dev")); 
+
 
 
 
@@ -42,7 +42,7 @@ app.get("/", async (req, res) => {
 
 // GET /fruits/new   (this is to the page with a form we can fill out 
 // and submit to add a new fruit to the database)
-app.get("/fruits/new", (req, res) => {
+app.get("/fruits/new", async (req, res) => {
   // res.send('This route send the user to a form page');
   // never add trailing slash within render
   res.render("fruits/new.ejs");
@@ -79,11 +79,15 @@ app.get("/fruits", async (req, res) => {
   res.render('fruits/index.ejs', { fruits: allFruits }); // created a new key called fruits
 });
 
+// show route - for sending a page with the details for
+// one particular fruit
 app.get("/fruits/:fruitId", async (req, res) => {
   const foundFruit = await Fruit.findById(req.params.fruitId);
   res.render("fruits/show.ejs", { fruit: foundFruit });
 });
 
+// delete route, once matched by server.js, sends a action to mongodb
+// to delete a document using its ID
 app.delete("/fruits/:fruitId", async (req, res) => {
   await Fruit.findByIdAndDelete(req.params.fruitId);
   res.redirect("/fruits");
