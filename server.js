@@ -3,6 +3,8 @@
 const dotenv = require("dotenv"); // require package
 const express = require("express");
 const mongoose = require("mongoose");
+const methodOverride = require("method-override"); // new
+const morgan = require("morgan"); //new
 // Import the Fruit model
 const Fruit = require("./models/fruit.js");
 
@@ -11,6 +13,10 @@ const app = express();
 
 dotenv.config(); // Loads the environment variables from .env file
 
+// Mount it along with our other middleware, ABOVE the routes
+app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride("_method")); // new
+app.use(morgan("dev")); //new
 
 // initialize connection to MongoDB
 mongoose.connect(process.env.MONGODB_URI);
@@ -70,7 +76,7 @@ app.get("/fruits", async (req, res) => {
   const allFruits = await Fruit.find({});
   // console.log(allFruits);
   // res.send("Welcome to the index page!");
-  res.render('fruits/index.ejs', {fruits: allFruits}); // created a new key called fruits
+  res.render('fruits/index.ejs', { fruits: allFruits }); // created a new key called fruits
 });
 
 app.get("/fruits/:fruitId", async (req, res) => {
@@ -78,6 +84,35 @@ app.get("/fruits/:fruitId", async (req, res) => {
   res.render("fruits/show.ejs", { fruit: foundFruit });
 });
 
+app.delete("/fruits/:fruitId", async (req, res) => {
+  await Fruit.findByIdAndDelete(req.params.fruitId);
+  res.redirect("/fruits");
+});
+
+// GET localhost:3000/fruits/:fruitId/edit
+app.get("/fruits/:fruitId/edit", async (req, res) => {
+  const foundFruit = await Fruit.findById(req.params.fruitId);
+  res.render("fruits/edit.ejs", {
+    fruit: foundFruit,
+  });
+});
+
+// server.js
+
+app.put("/fruits/:fruitId", async (req, res) => {
+  // Handle the 'isReadyToEat' checkbox data
+  if (req.body.isReadyToEat === "on") {
+    req.body.isReadyToEat = true;
+  } else {
+    req.body.isReadyToEat = false;
+  }
+
+  // Update the fruit in the database
+  await Fruit.findByIdAndUpdate(req.params.fruitId, req.body);
+
+  // Redirect to the fruit's show page to see the updates
+  res.redirect(`/fruits/${req.params.fruitId}`);
+});
 
 
 app.listen(3000, () => {
@@ -85,4 +120,3 @@ app.listen(3000, () => {
 });
 
 
-  
