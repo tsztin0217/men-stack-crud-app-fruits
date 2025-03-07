@@ -93,16 +93,27 @@ app.delete("/fruits/:fruitId", async (req, res) => {
   res.redirect("/fruits");
 });
 
+// To do edit we need two routes:
+// get to the edit page
+// then perform the edit
+
 // GET localhost:3000/fruits/:fruitId/edit
+// edit route - used to send a papge to the client with
+// an edit form pre-filled out with fruit details
+// so the user can edit the fruit and submit the form
 app.get("/fruits/:fruitId/edit", async (req, res) => {
+  // 1. look up the fruit by its id
   const foundFruit = await Fruit.findById(req.params.fruitId);
+  // 2. respond with a edit template with an edit form
   res.render("fruits/edit.ejs", {
     fruit: foundFruit,
   });
 });
 
-// server.js
 
+// update route - used to capture edit form submissions
+// an edit form pre-filled out with fruit details
+// so the user can edit the fruit and submit the form
 app.put("/fruits/:fruitId", async (req, res) => {
   // Handle the 'isReadyToEat' checkbox data
   // if (req.body.isReadyToEat === "on") {
