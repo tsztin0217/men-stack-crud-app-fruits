@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css">
+    <script defer src="/js/script.js"></script>
     <title>
         <%= fruit.name %>
     </title>
@@ -13,26 +15,36 @@
     <h1>
         <%= fruit.name %>
     </h1>
-    <nav>
-        <ul>
-            <li>
-                <a href="/fruits">Back to Fruits</a>
-            </li>
-        </ul>
-    </nav>
+    <div class="fruit-details">
+        <nav>
+            <ul>
+                <li>
+                    <a class="fruits-index-link" href="/fruits">
+                        <div class="index-link-text">Back to Fruits</div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
     <% if(fruit.isReadyToEat){ %>
         <p>This fruit is ready to eat!</p>
         <% } else { %>
             <p>This fruit is not ready to eat!</p>
             <% } %>
                 <!-- new delete button -->
-                <form action="/fruits/<%=fruit._id%>?_method=DELETE" method="POST">
-                    <button type="submit">Delete <%= fruit.name %></button>
-                </form>
-                <a href="/fruits/<%= fruit._id %>/edit">Edit <%= fruit.name %></a>
-        
 
-</body>
+                <div class="fruit-actions">
+                    <form class="delete-form" action="/fruits/<%=fruit._id%>?_method=DELETE" method="POST">
+                        <button class="delete-button" type="submit">Delete <%= fruit.name %></button>
+                    </form>
+                    <a class ="edit-link" href="/fruits/<%= fruit._id %>/edit">
+                        <div class="edit-text">Edit <%= fruit.name %>
+                        </div>
+                    </a>
+
+                </div>
+
+
 </body>
 
 </html>

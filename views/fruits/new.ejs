@@ -2,31 +2,36 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create a Fruit</title>
-  </head>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="/js/script.js"></script>
+  <title>Create a Fruit</title>
+</head>
 <!-- views/fruits/new.ejs -->
 
 <body>
-    <h1>Create a New Fruit!</h1>
-    <nav>
-        <ul>
-            <li>
-                <a href="/fruits">Back to Fruits</a>
-            </li>
-        </ul>
-    </nav>
-    <form action="/fruits" method="POST"> <!--restful routing-->
-      <label for="name">Name:</label>
-      <input type="text" name="name" id="name" />
-  
+  <h1>Create a New Fruit!</h1>
+  <nav>
+    <ul>
+      <li>
+        <a href="/fruits">Back to Fruits</a>
+      </li>
+    </ul>
+  </nav>
+
+  <form action="/fruits" method="POST"> <!--restful routing-->
+    <label for="name">Name:</label>
+    <input type="text" name="name" id="name" />
+
+    <div class="checkbox-div">
       <label for="isReadyToEat">Ready to Eat?</label>
       <input type="checkbox" name="isReadyToEat" id="isReadyToEat" />
-  
-      <button type="submit">Add Fruit</button>
-    </form>
-  </body>
-  
+    </div>
+    <button type="submit">Add Fruit</button>
+  </form>
+</body>
+
 </html>

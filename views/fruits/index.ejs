@@ -6,22 +6,26 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css">
+    <script defer src="/js/script.js"></script>
     <title>Fruits Index</title>
 </head>
 <!-- views/fruits/index.ejs -->
 
 <body>
+    <div class="index-header-div">
     <h1>All Fruits</h1>
     <nav>
         <ul>
             <li>
-                <a href="/fruits/new">Add New Fruit</a>
+                <a class ="add-fruit" href="/fruits/new">Add New Fruit</a>
             </li>
         </ul>
+    </div>
         <ul>
             <% fruits.forEach(fruit=> { %>
                 <li>
-                    <a href="/fruits/<%= fruit._id %>">
+                    <a class="fruit-cards" href="/fruits/<%= fruit._id %>">
                         <%= fruit.name %>
                     </a>
                 </li>

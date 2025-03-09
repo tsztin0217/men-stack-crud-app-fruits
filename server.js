@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: false }));
 // DELETE or PUT requests
 app.use(methodOverride("_method"));
 app.use(morgan("dev")); 
-
+app.use(express.static("public")) // static asset middleware - used to sent static assets(CSS, imgs and DOM manipulation JS) to the client
 
 
 
